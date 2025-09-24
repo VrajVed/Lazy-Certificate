@@ -1,11 +1,12 @@
 import { Button, Rows, Text } from "@canva/app-ui-kit";
 import { useEffect, useState } from "react";
 import type { SelectionEvent } from "@canva/design";
-import { selection } from "@canva/design";
+import { selection, requestExport } from "@canva/design";
 import * as styles from "styles/components.css";
 import { NameList } from "../data/namelist.js";
 
 export const App = () => {
+  
 
   const [selectionState, setSelectionState] = useState<SelectionEvent<"richtext">>({
     count: 0,
@@ -55,6 +56,29 @@ export const App = () => {
       }
       return prev + 1;
     });
+
+
+    const result = await requestExport({
+      acceptedFileTypes: ["png"]
+    });
+
+    if (result.status === "completed") {
+      // This gives you a download URL
+      const url = result.exportBlobs[0].url;
+
+      console.log("Export URL:", url);
+
+      // force download in browser (THIS FEATURE IS BLOCKED BY CANVA)
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "design.png";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+
+
   };
 
   return (
