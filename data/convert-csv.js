@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 
-const data = fs.readFileSync("names.csv", "utf8").trim().split("\n");
+const data = fs.readFileSync("data.csv", "utf8").trim().split("\n");
 
 // Split the header row into column names
 const headers = data[0].split(",");
