@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import type { SelectionEvent } from "@canva/design";
 import { selection, requestExport } from "@canva/design";
 import * as styles from "styles/components.css";
-import { NameList } from "../data/namelist.js";
+import NameList from "../data/namelist.json" assert { type: "json" };
 
 export const App = () => {
   
@@ -68,7 +68,7 @@ export const App = () => {
 
       console.log("Export URL:", url);
 
-      // force download in browser (THIS FEATURE IS BLOCKED BY CANVA)
+      // force download in browser
       const link = document.createElement("a");
       link.href = url;
       link.download = "design.png";
