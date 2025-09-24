@@ -1,6 +1,5 @@
-// Add your list of names here
 
-export const NameList = [
+[
     "1 1",
     "2 2",
     "3 3",
@@ -11,5 +10,5 @@ export const NameList = [
     "8 8",
     "9 9",
     "10 10",
-    "11 11"  
-  ];
+    "11 11"
+]
