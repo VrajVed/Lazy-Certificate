@@ -13,4 +13,4 @@ paste the `data/namelist.js` and the `app.tsx` file in your canva starter kit
 
 Start clicking the button and easily download certificates
 
-*Auto Download feature is blocked by canva because of security reasons, I am working to find a workaround*
+*Note: Auto Download feature is blocked by canva because of security reasons, I am working to find a workaround*
