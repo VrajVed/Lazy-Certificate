@@ -35,6 +35,9 @@ export const App = () => {
   const replaceText = async () => {
     if (!selectionState) return;
 
+    console.log("🔄 Starting text replacement...");
+    console.log("📝 Current name:", NameList[currentIndex]);
+
     const draft = await selectionState.read();
 
     for (const richtext of draft.contents) {
@@ -48,16 +51,16 @@ export const App = () => {
     }
 
     await draft.save();
+    console.log("✅ Text replaced with:", NameList[currentIndex]);
 
     // move to next index 
     setCurrentIndex((prev) => {
-      if (prev === NameList.length - 1) {
-        return 0; // reset to first name
-      }
-      return prev + 1;
+      const nextIndex = prev === NameList.length - 1 ? 0 : prev + 1;
+      console.log("➡️ Next index will be:", nextIndex, "(" + NameList[nextIndex] + ")");
+      return nextIndex;
     });
-
-
+    
+    console.log("📤 Requesting export...");
     const result = await requestExport({
       acceptedFileTypes: ["png"]
     });
@@ -65,19 +68,33 @@ export const App = () => {
     if (result.status === "completed") {
       // This gives you a download URL
       const url = result.exportBlobs[0].url;
+      const name = NameList[currentIndex];
 
-      console.log("Export URL:", url);
+      console.log("✅ Export completed!");
+      console.log("🔗 Export URL:", url);
+      console.log("💾 Saving as:", name + ".png");
 
-      // force download in browser
+      fetch("http://localhost:3000/download", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url, name }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("✅ Server response:", data))
+        .catch((err) => console.error("❌ Server error:", err));
+    }
+      else {
+        console.error("❌ Export failed or was cancelled:", result);
+      } 
+    /*// force download in browser
       const link = document.createElement("a");
       link.href = url;
       link.download = "design.png";
       document.body.appendChild(link);
       link.click();
-      link.remove();
-    }
-
-
+      link.remove();*/ 
 
   };
 
